@@ -1,80 +1,181 @@
-#include <Adafruit_CircuitPlayground.h>
-#include <Wire.h>
-#include <SPI.h>
+/*
+  Debounce
 
+  Each time the input pin goes from HIGH to LOW (e.g. because of a push-button
+  press), the output pin is toggled from LOW to HIGH or HIGH to LOW. There's a
+  minimum delay between toggles to debounce the circuit (i.e. to ignore noise).
+*/
 
+const int pinNext = 15;
+const int pinPlayPause = 16;
+const int pinPrev = 17;
+const int pinLed = 13;
+
+int stateLed = LOW;
+
+int stateNextBtn;
+int lastStateNextBtn = LOW;
+int statePlayPauseBtn;
+int lastStatePlayPauseBtn = LOW;
+int statePrevBtn;
+int lastStatePrevBtn = LOW;
+
+unsigned long lastTick = 0;
+unsigned long debounceDelay = 50;
+
+/*
+  SETUP
+*/
 void setup()
 {
-    Serial.begin(9600);
-    Serial.println("Circuit Playground test!");
+    pinMode(pinLed, OUTPUT);
+    pinMode(pinNext, INPUT_PULLUP);
+    pinMode(pinPlayPause, INPUT_PULLUP);
+    pinMode(pinPrev, INPUT_PULLUP);
 
-    CircuitPlayground.begin();
+    digitalWrite(pinLed, stateLed);
+
+    Serial.begin(9600);
+
+    while (!Serial)
+    {
+        ;
+    }
+    establishContact();
 }
 
+/*
+  Next
+*/
+bool isNextBtnPressed()
+{
+    bool ret = false;
+    int reading = digitalRead(pinNext);
+
+    if (reading != lastStateNextBtn)
+    {
+        lastTick = millis();
+    }
+
+    if (((millis() - lastTick) > debounceDelay) && (reading != stateNextBtn))
+    {
+        stateNextBtn = reading;
+        if (stateNextBtn == LOW)
+        {
+            // stateLed = !stateLed;
+            ret = true;
+        }
+    }
+    lastStateNextBtn = reading;
+
+    return ret;
+}
+
+/*
+  PlayPause
+*/
+bool isPlayPauseBtnPressed()
+{
+    bool ret = false;
+    int reading = digitalRead(pinPlayPause);
+
+    if (reading != lastStatePlayPauseBtn)
+    {
+        lastTick = millis();
+    }
+
+    if (((millis() - lastTick) > debounceDelay) && (reading != statePlayPauseBtn))
+    {
+        statePlayPauseBtn = reading;
+        if (statePlayPauseBtn == LOW)
+        {
+            // stateLed = !stateLed;
+            ret = true;
+        }
+    }
+    lastStatePlayPauseBtn = reading;
+
+    return ret;
+}
+
+/*
+  Prev
+*/
+bool isPrevBtnPressed()
+{
+    bool ret = false;
+    int reading = digitalRead(pinPrev);
+
+    if (reading != lastStatePrevBtn)
+    {
+        lastTick = millis();
+    }
+
+    if (((millis() - lastTick) > debounceDelay) && (reading != statePrevBtn))
+    {
+        statePrevBtn = reading;
+        if (statePrevBtn == LOW)
+        {
+            // stateLed = !stateLed;
+            ret = true;
+        }
+    }
+    lastStatePrevBtn = reading;
+
+    return ret;
+}
+
+/*
+  Establish Connection
+*/
+void establishContact()
+{
+    while (Serial.available() <= 0)
+    {
+        // send a capital A
+        Serial.print('A');
+        delay(300);
+    }
+}
+
+void flashLED()
+{
+    if (digitalRead(pinNext) && digitalRead(pinPlayPause) && digitalRead(pinPrev))
+    {
+        digitalWrite(pinLed, LOW);
+    }
+    else
+    {
+        digitalWrite(pinLed, HIGH);
+    }
+}
+
+/*
+  LOOP
+*/
 void loop()
 {
-    delay(200);
-    CircuitPlayground.redLED(HIGH);
-    delay(200);
-    CircuitPlayground.redLED(LOW);
-
-    // Purpose: Test for connection
-    Serial.print("Capsense #3: ");
-    Serial.println(CircuitPlayground.readCap(3));
-
-    // #define CPLAY_LEFTBUTTON 4
-    // // just read the left button
-    // boolean Adafruit_CircuitPlayground::leftButton(void)
-    // {
-    //     return digitalRead(CPLAY_LEFTBUTTON);
-    // }
-    if (CircuitPlayground.leftButton())
+    if (isNextBtnPressed())
     {
-        // button #4 pressed - aka play button
+        stateLed = !stateLed;
+        Serial.println("next");
+    }
+    if (isPlayPauseBtnPressed())
+    {
+        stateLed = !stateLed;
         Serial.println("playPause");
-        // flash led nr 2 in green
-        CircuitPlayground.setPixelColor(2, CircuitPlayground.colorWheel(100));
     }
-    else
+    if (isPrevBtnPressed())
     {
-        CircuitPlayground.clearPixels();
+        stateLed = !stateLed;
+        Serial.println("prev");
     }
 
-    // #define CPLAY_RIGHTBUTTON 19
-    // // just read the right button
-    // boolean Adafruit_CircuitPlayground::rightButton(void)
-    // {
-    //     return digitalRead(CPLAY_RIGHTBUTTON);
-    // }
-    if (CircuitPlayground.rightButton())
+    // digitalWrite(pinLed, stateLed);
+    flashLED();
+
+    if (Serial.available() > 0)
     {
-        // button #19 pressed - aka resume
-        Serial.println("prev");
-        // flash led nr 8 in green
-        CircuitPlayground.setPixelColor(7, CircuitPlayground.colorWheel(100));
-    }
-    else
-    {
-        CircuitPlayground.clearPixels();
+        Serial.write(Serial.read());
     }
 }
-
-// // wiring_digital.c
-// int digitalRead(uint8_t pin)
-// {
-//     uint8_t timer = digitalPinToTimer(pin);
-//     uint8_t bit = digitalPinToBitMask(pin);
-//     uint8_t port = digitalPinToPort(pin);
-
-//     if (port == NOT_A_PIN)
-//         return LOW;
-
-//     // If the pin that support PWM output, we need to turn it off
-//     // before getting a digital reading.
-//     if (timer != NOT_ON_TIMER)
-//         turnOffPWM(timer);
-
-//     if (*portInputRegister(port) & bit)
-//         return HIGH;
-//     return LOW;
-// }
