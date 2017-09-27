@@ -10,6 +10,7 @@ const int pinNext = 15;
 const int pinPlayPause = 16;
 const int pinPrev = 17;
 const int pinLed = 13;
+const int pinVibro = 14;
 
 int stateLed = LOW;
 
@@ -29,6 +30,7 @@ unsigned long debounceDelay = 50;
 void setup()
 {
     pinMode(pinLed, OUTPUT);
+    pinMode(pinVibro, OUTPUT);
     pinMode(pinNext, INPUT_PULLUP);
     pinMode(pinPlayPause, INPUT_PULLUP);
     pinMode(pinPrev, INPUT_PULLUP);
@@ -147,6 +149,7 @@ void flashLED()
     else
     {
         digitalWrite(pinLed, HIGH);
+        digitalWrite(pinVibro, HIGH);
     }
 }
 
