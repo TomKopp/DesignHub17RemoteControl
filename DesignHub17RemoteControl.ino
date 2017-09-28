@@ -140,6 +140,9 @@ void establishContact()
     }
 }
 
+/*
+  Flash LED
+*/
 void flashLED()
 {
     if (digitalRead(pinNext) && digitalRead(pinPlayPause) && digitalRead(pinPrev))
