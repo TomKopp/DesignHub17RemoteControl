@@ -43,7 +43,7 @@ void setup()
     {
         ;
     }
-    establishContact();
+    // establishContact();
 }
 
 /*
