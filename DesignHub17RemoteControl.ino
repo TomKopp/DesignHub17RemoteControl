@@ -80,6 +80,7 @@ void setup()
     display.display(); // is intialized with an Adafruit splashscreen
 
     Serial.begin(921600);
+    Serial1.begin(921600);
 
     while (!Serial)
     {
@@ -247,6 +248,12 @@ void loop()
     if (Serial.available() > 0)
     {
         printText(Serial.readString(), 0, 1);
+    }
+
+    while (Serial1.available() > 0)
+    {
+        // TODO: Write this to TCP via WLAN
+        Serial.write(Serial1.read());
     }
 
     if (!Serial)
