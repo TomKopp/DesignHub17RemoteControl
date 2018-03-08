@@ -1,15 +1,6 @@
 {
-    "files.associations": {
-        "*.mst": "mustache",
-        "atomic": "cpp",
-        "forward_list": "cpp",
-        "ios": "cpp",
-        "list": "cpp",
-        "system_error": "cpp",
-        "vector": "cpp",
-        "xhash": "cpp",
-        "xiosbase": "cpp",
-        "xstring": "cpp",
-        "xtree": "cpp"
+    "terminal.integrated.env.windows": {
+        "PATH": "C:\\Users\\witzbould\\.platformio\\penv\\Scripts;C:\\Users\\witzbould\\.platformio\\penv;C:\\Python27\\;C:\\Python27\\Scripts;C:\\PROGRAM FILES (X86)\\INTEL\\ICLS CLIENT\\;C:\\PROGRAM FILES\\INTEL\\ICLS CLIENT\\;C:\\libs\\Qt\\5.7\\msvc2015_64\\BIN;C:\\PROGRAMDATA\\ORACLE\\JAVA\\JAVAPATH;C:\\PROGRAM FILES\\DELL\\DW WLAN CARD;C:\\WINDOWS\\SYSTEM32;C:\\WINDOWS;C:\\WINDOWS\\SYSTEM32\\WBEM;C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\;C:\\PROGRAMDATA\\CHOCOLATEY\\BIN;C:\\PROGRAM FILES\\GIT\\CMD;C:\\PROGRAM FILES\\SLIKSVN\\BIN;C:\\PROGRAM FILES\\OPENVPN\\BIN;C:\\WINDOWS\\SYSTEM32;C:\\WINDOWS;C:\\WINDOWS\\SYSTEM32\\WBEM;C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\;C:\\tools\\opencv\\build\\x64\\vc14\\BIN;C:\\PROGRAM FILES\\CMAKE\\BIN;C:\\libs\\tbb2017_20160916oss\\BIN\\INTEL64\\VC14;C:\\PROGRAM FILES (X86)\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\DAL;C:\\PROGRAM FILES\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\DAL;C:\\PROGRAM FILES (X86)\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\IPT;C:\\PROGRAM FILES\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\IPT;C:\\Program Files\\WIDCOMM\\Bluetooth Software\\;C:\\Program Files\\WIDCOMM\\Bluetooth Software\\syswow64;C:\\Program Files (x86)\\Skype\\Phone\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs\\;C:\\Users\\witzbould\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\witzbould\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Users\\witzbould\\AppData\\Roaming\\npm;C:\\Python27\\;C:\\Python27\\Scripts;C:\\PROGRAM FILES (X86)\\INTEL\\ICLS CLIENT\\;C:\\PROGRAM FILES\\INTEL\\ICLS CLIENT\\;C:\\libs\\Qt\\5.7\\msvc2015_64\\BIN;C:\\PROGRAMDATA\\ORACLE\\JAVA\\JAVAPATH;C:\\PROGRAM FILES\\DELL\\DW WLAN CARD;C:\\WINDOWS\\SYSTEM32;C:\\WINDOWS;C:\\WINDOWS\\SYSTEM32\\WBEM;C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\;C:\\PROGRAMDATA\\CHOCOLATEY\\BIN;C:\\PROGRAM FILES\\GIT\\CMD;C:\\PROGRAM FILES\\SLIKSVN\\BIN;C:\\PROGRAM FILES\\OPENVPN\\BIN;C:\\WINDOWS\\SYSTEM32;C:\\WINDOWS;C:\\WINDOWS\\SYSTEM32\\WBEM;C:\\WINDOWS\\SYSTEM32\\WINDOWSPOWERSHELL\\V1.0\\;C:\\tools\\opencv\\build\\x64\\vc14\\BIN;C:\\PROGRAM FILES\\CMAKE\\BIN;C:\\libs\\tbb2017_20160916oss\\BIN\\INTEL64\\VC14;C:\\PROGRAM FILES (X86)\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\DAL;C:\\PROGRAM FILES\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\DAL;C:\\PROGRAM FILES (X86)\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\IPT;C:\\PROGRAM FILES\\INTEL\\INTEL(R) MANAGEMENT ENGINE COMPONENTS\\IPT;C:\\Program Files\\WIDCOMM\\Bluetooth Software\\;C:\\Program Files\\WIDCOMM\\Bluetooth Software\\syswow64;C:\\Program Files (x86)\\Skype\\Phone\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files\\Microsoft SQL Server\\130\\Tools\\Binn\\;C:\\Program Files\\dotnet\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs\\;C:\\Users\\witzbould\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\witzbould\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\Microsoft VS Code\\bin;C:\\Users\\witzbould\\AppData\\Roaming\\npm",
+        "PLATFORMIO_CALLER": "vscode"
     }
 }

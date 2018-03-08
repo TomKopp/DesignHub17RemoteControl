@@ -1,3 +1,39 @@
+#include <Arduino.h>
+#include <SPI.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define OLED_RESET 4
+Adafruit_SSD1306 display(OLED_RESET);
+
+#define NUMFLAKES 10
+#define XPOS 0
+#define YPOS 1
+#define DELTAY 2
+
+static const unsigned char PROGMEM logo16_glcd_bmp[] =
+    {B00000000, B11000000,
+     B00000001, B11000000,
+     B00000001, B11000000,
+     B00000011, B11100000,
+     B11110011, B11100000,
+     B11111110, B11111000,
+     B01111110, B11111111,
+     B00110011, B10011111,
+     B00011111, B11111100,
+     B00001101, B01110000,
+     B00011011, B10100000,
+     B00111111, B11100000,
+     B00111111, B11110000,
+     B01111100, B11110000,
+     B01110000, B01110000,
+     B00000000, B00110000};
+
+#if (SSD1306_LCDHEIGHT != 32)
+#error("Height incorrect, please fix Adafruit_SSD1306.h!");
+#endif
+
 /*
   Debounce
 
@@ -6,9 +42,9 @@
   minimum delay between toggles to debounce the circuit (i.e. to ignore noise).
 */
 
-const int pinNext = 15;
-const int pinPlayPause = 16;
-const int pinPrev = 17;
+const int pinNext = 9;
+const int pinPlayPause = 6;
+const int pinPrev = 5;
 const int pinLed = 13;
 const int pinVibro = 14;
 
@@ -23,6 +59,9 @@ int lastStatePrevBtn = LOW;
 
 unsigned long lastTick = 0;
 unsigned long debounceDelay = 50;
+unsigned long displayLastTick = 0;
+
+void printText(String text, int x = 0, int y = 0);
 
 /*
   SETUP
@@ -37,13 +76,19 @@ void setup()
 
     digitalWrite(pinLed, stateLed);
 
-    Serial.begin(9600);
+    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+    display.display(); // is intialized with an Adafruit splashscreen
+    display.dim(true);
+
+    Serial.begin(921600);
+    Serial1.begin(921600);
 
     while (!Serial)
     {
         ;
     }
     // establishContact();
+    printText("connected");
 }
 
 /*
@@ -157,6 +202,24 @@ void flashLED()
 }
 
 /*
+ * Print text to display
+ */
+void printText(String text, int x, int y)
+{
+
+    if ((millis() - displayLastTick) > debounceDelay)
+    {
+        display.clearDisplay();
+        display.setTextSize(1);
+        display.setTextColor(WHITE);
+        display.setCursor(x, y);
+        display.println(text);
+        display.display();
+        displayLastTick = millis();
+    }
+}
+
+/*
   LOOP
 */
 void loop()
@@ -165,16 +228,19 @@ void loop()
     {
         stateLed = !stateLed;
         Serial.println("next");
+        printText("next");
     }
     if (isPlayPauseBtnPressed())
     {
         stateLed = !stateLed;
         Serial.println("playPause");
+        printText("playPause");
     }
     if (isPrevBtnPressed())
     {
         stateLed = !stateLed;
         Serial.println("prev");
+        printText("prev");
     }
 
     // digitalWrite(pinLed, stateLed);
@@ -182,6 +248,17 @@ void loop()
 
     if (Serial.available() > 0)
     {
-        Serial.write(Serial.read());
+        printText(Serial.readString(), 0, 1);
+    }
+
+    while (Serial1.available() > 0)
+    {
+        // TODO: Write this to TCP via WLAN
+        Serial.write(Serial1.read());
+    }
+
+    if (!Serial)
+    {
+        printText("connection lost", 0, 1);
     }
 }
