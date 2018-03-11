@@ -1,46 +1,18 @@
 #include <Arduino.h>
+#include <SPI.h>
+#include <WiFi101.h>
+#include "Config.h"
 
+using namespace DesignHub;
 
-/*
-  Debounce
-
-  Each time the input pin goes from HIGH to LOW (e.g. because of a push-button
-  press), the output pin is toggled from LOW to HIGH or HIGH to LOW. There's a
-  minimum delay between toggles to debounce the circuit (i.e. to ignore noise).
-*/
-
-const int pinNext = 17;
-const int pinPlayPause = 16;
-const int pinPrev = 15;
-const int pinLed = 13;
-const int pinVibro = 18;
-
-int stateLed = LOW;
-
-int stateNextBtn;
-int lastStateNextBtn = LOW;
-int statePlayPauseBtn;
-int lastStatePlayPauseBtn = LOW;
-int statePrevBtn;
-int lastStatePrevBtn = LOW;
-
-unsigned long lastTick = 0;
-unsigned long debounceDelay = 50;
-unsigned long displayLastTick = 0;
-
+Config mConfig;
 
 /*
   SETUP
 */
 void setup()
 {
-    pinMode(pinLed, OUTPUT);
-    pinMode(pinVibro, OUTPUT);
-    pinMode(pinNext, INPUT_PULLUP);
-    pinMode(pinPlayPause, INPUT_PULLUP);
-    pinMode(pinPrev, INPUT_PULLUP);
-
-    digitalWrite(pinLed, stateLed);
+    mConfig.initPinAllocation();
 
     Serial.begin(921600);
     Serial1.begin(921600);
@@ -58,23 +30,23 @@ void setup()
 bool isNextBtnPressed()
 {
     bool ret = false;
-    int reading = digitalRead(pinNext);
+    int reading = digitalRead(mConfig.pinNext);
 
-    if (reading != lastStateNextBtn)
+    if (reading != mConfig.lastStateNextBtn)
     {
-        lastTick = millis();
+        mConfig.lastTick = millis();
     }
 
-    if (((millis() - lastTick) > debounceDelay) && (reading != stateNextBtn))
+    if (((millis() - mConfig.lastTick) > mConfig.debounceDelay) && (reading != mConfig.stateNextBtn))
     {
-        stateNextBtn = reading;
-        if (stateNextBtn == LOW)
+        mConfig.stateNextBtn = reading;
+        if (mConfig.stateNextBtn == LOW)
         {
             // stateLed = !stateLed;
             ret = true;
         }
     }
-    lastStateNextBtn = reading;
+    mConfig.lastStateNextBtn = reading;
 
     return ret;
 }
@@ -85,23 +57,23 @@ bool isNextBtnPressed()
 bool isPlayPauseBtnPressed()
 {
     bool ret = false;
-    int reading = digitalRead(pinPlayPause);
+    int reading = digitalRead(mConfig.pinPlayPause);
 
-    if (reading != lastStatePlayPauseBtn)
+    if (reading != mConfig.lastStatePlayPauseBtn)
     {
-        lastTick = millis();
+        mConfig.lastTick = millis();
     }
 
-    if (((millis() - lastTick) > debounceDelay) && (reading != statePlayPauseBtn))
+    if (((millis() - mConfig.lastTick) > mConfig.debounceDelay) && (reading != mConfig.statePlayPauseBtn))
     {
-        statePlayPauseBtn = reading;
-        if (statePlayPauseBtn == LOW)
+        mConfig.statePlayPauseBtn = reading;
+        if (mConfig.statePlayPauseBtn == LOW)
         {
             // stateLed = !stateLed;
             ret = true;
         }
     }
-    lastStatePlayPauseBtn = reading;
+    mConfig.lastStatePlayPauseBtn = reading;
 
     return ret;
 }
@@ -112,23 +84,23 @@ bool isPlayPauseBtnPressed()
 bool isPrevBtnPressed()
 {
     bool ret = false;
-    int reading = digitalRead(pinPrev);
+    int reading = digitalRead(mConfig.pinPrev);
 
-    if (reading != lastStatePrevBtn)
+    if (reading != mConfig.lastStatePrevBtn)
     {
-        lastTick = millis();
+        mConfig.lastTick = millis();
     }
 
-    if (((millis() - lastTick) > debounceDelay) && (reading != statePrevBtn))
+    if (((millis() - mConfig.lastTick) > mConfig.debounceDelay) && (reading != mConfig.statePrevBtn))
     {
-        statePrevBtn = reading;
-        if (statePrevBtn == LOW)
+        mConfig.statePrevBtn = reading;
+        if (mConfig.statePrevBtn == LOW)
         {
             // stateLed = !stateLed;
             ret = true;
         }
     }
-    lastStatePrevBtn = reading;
+    mConfig.lastStatePrevBtn = reading;
 
     return ret;
 }
@@ -151,18 +123,17 @@ void establishContact()
 */
 void flashLED()
 {
-    if (digitalRead(pinNext) && digitalRead(pinPlayPause) && digitalRead(pinPrev))
+    if (digitalRead(mConfig.pinNext) && digitalRead(mConfig.pinPlayPause) && digitalRead(mConfig.pinPrev))
     {
-        digitalWrite(pinLed, LOW);
-        digitalWrite(pinVibro, LOW);
+        digitalWrite(mConfig.pinLed, LOW);
+        digitalWrite(mConfig.pinVibro, LOW);
     }
     else
     {
-        digitalWrite(pinLed, HIGH);
-        digitalWrite(pinVibro, HIGH);
+        digitalWrite(mConfig.pinLed, HIGH);
+        digitalWrite(mConfig.pinVibro, HIGH);
     }
 }
-
 
 /*
   LOOP
@@ -171,17 +142,17 @@ void loop()
 {
     if (isNextBtnPressed())
     {
-        stateLed = !stateLed;
+        mConfig.stateLed = !mConfig.stateLed;
         Serial.println("next");
     }
     if (isPlayPauseBtnPressed())
     {
-        stateLed = !stateLed;
+        mConfig.stateLed = !mConfig.stateLed;
         Serial.println("playPause");
     }
     if (isPrevBtnPressed())
     {
-        stateLed = !stateLed;
+        mConfig.stateLed = !mConfig.stateLed;
         Serial.println("prev");
     }
 
