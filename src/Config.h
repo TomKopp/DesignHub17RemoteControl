@@ -7,18 +7,19 @@ namespace DesignHub
 class Config
 {
   public:
-    // const int pinNext = 17;
-    // const int pinPlayPause = 16;
-    // const int pinPrev = 15;
-    // const int pinLed = 13;
-    // const int pinVibro = 18;
-
-    // Pin allocation for featherWing M0
-    const int pinNext = 9;
-    const int pinPlayPause = 6;
-    const int pinPrev = 5;
+    // Pin allocation for feather
+    const int pinNext = 17;
+    const int pinPlayPause = 16;
+    const int pinPrev = 15;
     const int pinLed = 13;
     const int pinVibro = 18;
+
+    // Pin allocation for featherWing M0
+    // const int pinNext = 9;
+    // const int pinPlayPause = 6;
+    // const int pinPrev = 5;
+    // const int pinLed = 13;
+    // const int pinVibro = 18;
 
     int stateLed = LOW;
 
@@ -31,7 +32,6 @@ class Config
 
     unsigned long lastTick = 0;
     unsigned long debounceDelay = 50;
-    unsigned long displayLastTick = 0;
 
   public:
     void initPinAllocation()
